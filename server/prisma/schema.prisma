@@ -7,10 +7,28 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Role {
+  user
+  admin
+}
+
 model User {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
-  password  String
-  name      String
-  createdAt DateTime @default(now())
+  id         Int        @id @default(autoincrement())
+  email      String     @unique
+  password   String
+  name       String
+  role       Role       @default(user)
+  created_at DateTime   @default(now())
+  updated_at DateTime   @updatedAt
+  activities Activity[]
+}
+
+model Activity {
+  id         Int      @id @default(autoincrement())
+  action     String
+  detail     String?
+  userId     Int
+  user       User     @relation(fields: [userId], references: [id])
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 }
