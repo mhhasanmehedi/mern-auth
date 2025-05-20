@@ -4,6 +4,8 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import authRoutes from "./src/routes/authRoutes.js";
 import userRoutes from "./src/routes/user.routes.js";
+import paymentRoutes from "./src/routes/payment.routes.js";
+import activityRoute from "./src/routes/activity.route.js";
 import { errorHandler, notFound } from "./src/middleware/error.middleware.js";
 
 dotenv.config();
@@ -20,6 +22,8 @@ app.use(
 
 app.use("/api/auth", authRoutes);
 app.use("/api", userRoutes);
+app.use("/api/payment", paymentRoutes);
+app.use("/api/activity", activityRoute);
 
 app.use(notFound);
 app.use(errorHandler);
