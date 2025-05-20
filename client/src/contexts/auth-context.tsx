@@ -56,7 +56,7 @@ const authReducer = (state: AuthState, action: AuthAction) => {
       return {
         ...state,
         loading: false,
-        isAuthenticated: false,
+        isAuthenticated: true,
         message: action.payload,
       };
 

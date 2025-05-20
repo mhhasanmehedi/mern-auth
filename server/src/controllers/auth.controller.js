@@ -76,6 +76,14 @@ export const login = async (req, res) => {
         .json({ success: false, message: "Invalid credentials" });
     }
 
+    // Update last_login time
+    await db.user.update({
+      where: { id: user.id },
+      data: {
+        last_login: new Date(),
+      },
+    });
+
     // Create activity record
     await db.activity.create({
       data: {

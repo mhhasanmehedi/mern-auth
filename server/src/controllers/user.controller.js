@@ -8,6 +8,7 @@ export const allUsers = asyncHandler(async (req, res, next) => {
       name: true,
       email: true,
       role: true,
+      last_login: true,
       created_at: true,
       updated_at: true,
     },

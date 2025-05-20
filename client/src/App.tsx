@@ -10,6 +10,8 @@ import GuestLayout from "./components/layouts/guest-layout";
 import DashboardLayout from "./components/layouts/dashboard-layout";
 import Dashboard from "./screens/dashboard";
 import ProtectedRoute from "./components/protected-route";
+import ActivityPage from "./screens/activities";
+import UsersPage from "./screens/users";
 
 const App = () => {
   return (
@@ -29,7 +31,9 @@ const App = () => {
             </ProtectedRoute>
           }
         >
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/user/dashboard" element={<Dashboard />} />
+          <Route path="/user/activities" element={<ActivityPage />} />
+          <Route path="/user/users" element={<UsersPage />} />
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>

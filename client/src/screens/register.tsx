@@ -1,101 +1,126 @@
+import { useEffect } from "react";
+import { Link, useNavigate } from "react-router";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import useAuth from "@/hooks/useAuth";
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router";
+import { toast } from "react-toastify";
 
-const RegisterPage = () => {
+const registerSchema = z.object({
+  name: z.string().min(2, "Name must be at least 2 characters."),
+  email: z.string().email("Please enter a valid email."),
+  password: z.string().min(6, "Password must be at least 6 characters."),
+});
+
+type RegisterFormValues = z.infer<typeof registerSchema>;
+
+export default function RegisterPage() {
   const navigate = useNavigate();
-  const { register, isAuthenticated, loading, error, clearErrors } = useAuth();
+  const {
+    register: registerUser,
+    isAuthenticated,
+    loading,
+    error,
+    clearErrors,
+  } = useAuth();
 
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    password: "",
+  const form = useForm<RegisterFormValues>({
+    resolver: zodResolver(registerSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      password: "",
+    },
   });
-
-  const { name, email, password } = formData;
 
   useEffect(() => {
     if (isAuthenticated) {
       navigate("/");
     }
 
-    return () => {
+    if (error) {
+      toast.error(error);
       clearErrors();
-    };
-  }, [isAuthenticated]);
+    }
+  }, [isAuthenticated, error, navigate, clearErrors]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    await register(formData);
+  const onSubmit = async (values: RegisterFormValues) => {
+    await registerUser(values);
   };
 
   return (
-    <div className="max-w-md mx-auto mt-10 bg-white p-8 rounded shadow">
-      <h2 className="text-2xl font-bold mb-6 text-center">Register</h2>
+    <div className="max-w-md mx-auto mt-10 bg-white p-8 rounded-2xl shadow-xl">
+      <h2 className="text-2xl font-bold text-center mb-6">Create an Account</h2>
 
-      {error && <p className="text-red-500 mb-4">{error}</p>}
-
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label className="block mb-1">Name</label>
-          <input
-            type="text"
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+          <FormField
+            control={form.control}
             name="name"
-            value={name}
-            onChange={handleChange}
-            required
-            className="w-full border px-3 py-2 rounded"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Full Name</FormLabel>
+                <FormControl>
+                  <Input placeholder="John Doe" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
           />
-        </div>
 
-        <div>
-          <label className="block mb-1">Email</label>
-          <input
-            type="email"
+          <FormField
+            control={form.control}
             name="email"
-            value={email}
-            onChange={handleChange}
-            required
-            className="w-full border px-3 py-2 rounded"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Email Address</FormLabel>
+                <FormControl>
+                  <Input placeholder="you@example.com" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
           />
-        </div>
 
-        <div>
-          <label className="block mb-1">Password</label>
-          <input
-            type="password"
+          <FormField
+            control={form.control}
             name="password"
-            value={password}
-            onChange={handleChange}
-            required
-            className="w-full border px-3 py-2 rounded"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Password</FormLabel>
+                <FormControl>
+                  <Input type="password" placeholder="••••••••" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
           />
-        </div>
 
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
-        >
-          {loading ? "Registering..." : "Register"}
-        </button>
-      </form>
+          <Button type="submit" className="w-full" disabled={loading}>
+            {loading ? "Registering..." : "Register"}
+          </Button>
+        </form>
+      </Form>
 
-      <p className="mt-4 text-center text-sm">
+      <p className="mt-6 text-center text-sm">
         Already have an account?{" "}
-        <span
-          className="text-blue-600 cursor-pointer underline"
-          onClick={() => navigate("/login")}
+        <Link
+          to={"/login"}
+          className="text-primary font-medium hover:underline cursor-pointer"
         >
-          Login
-        </span>
+          Log in here
+        </Link>
       </p>
     </div>
   );
-};
-
-export default RegisterPage;
+}

@@ -18,6 +18,7 @@ model User {
   password   String
   name       String
   role       Role       @default(user)
+  last_login DateTime?
   created_at DateTime   @default(now())
   updated_at DateTime   @updatedAt
   activities Activity[]

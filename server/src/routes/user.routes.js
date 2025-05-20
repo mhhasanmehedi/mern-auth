@@ -7,11 +7,6 @@ import {
 
 const router = express.Router();
 
-router.get(
-  "/admin/users",
-  isAuthenticatedUser,
-  authorizeRoles("admin"),
-  allUsers
-);
+router.get("/users", isAuthenticatedUser, authorizeRoles("admin"), allUsers);
 
 export default router;
