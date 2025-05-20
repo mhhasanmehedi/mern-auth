@@ -1,3 +1,4 @@
+import asyncHandler from "../middleware/asyncHandler.js";
 import db from "../utils/db.js";
 import generateToken from "../utils/generateToken.js";
 import bcrypt from "bcryptjs";
@@ -101,3 +102,24 @@ export const login = async (req, res) => {
     });
   }
 };
+
+export const getUserProfile = asyncHandler(async (req, res, next) => {
+  const user = await db.user.findUnique({
+    where: {
+      id: req.user.id,
+    },
+  });
+
+  res.status(200).json({
+    success: true,
+    user,
+  });
+});
+
+export const logout = asyncHandler(async (req, res, next) => {
+  res.cookie("jwt", "", {
+    expires: new Date(0),
+    httpOnly: true,
+  });
+  res.status(200).json({ message: "User Logged Out" });
+});

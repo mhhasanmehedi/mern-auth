@@ -6,12 +6,12 @@ export const isAuthenticatedUser = asyncHandler(async (req, res, next) => {
   const token = req.cookies.jwt;
 
   if (!token) {
-    return next(new ErrorHandler("Login first to access this resource.", 401));
+    return next(new Error("Login first to access this resource.", 401));
   }
 
   const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-  req.user = await db.User.findUnique({
+  req.user = await db.user.findUnique({
     where: {
       id: decoded.userId,
     },
