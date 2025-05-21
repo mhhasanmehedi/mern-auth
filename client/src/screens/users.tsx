@@ -13,7 +13,6 @@ import {
 import axios from "axios";
 import { format } from "date-fns";
 import { Badge } from "@/components/ui/badge";
-import { useOnlineUsers } from "@/hooks/use-online-users";
 
 interface User {
   id: number;
@@ -28,7 +27,6 @@ interface User {
 }
 
 export default function UsersPage() {
-  const { onlineUserIds } = useOnlineUsers();
   const { backendUrl } = useAuth();
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -96,13 +94,7 @@ export default function UsersPage() {
                           "dd MMM yyyy, hh:mm a"
                         )}
                     </TableCell>
-                    <TableCell>
-                      {/* {onlineUserIds.includes(user.id) ? (
-                        <Badge className="rounded-full">Online</Badge>
-                      ) : (
-                        <Badge className="rounded-full">Offline</Badge>
-                      )} */}
-                    </TableCell>
+                    <TableCell></TableCell>
                     <TableCell className="text-right">
                       {format(user.created_at, "dd MMM yyyy")}
                     </TableCell>
