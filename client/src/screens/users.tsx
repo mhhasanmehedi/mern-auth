@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { Loader2 } from "lucide-react";
 import useAuth from "@/hooks/useAuth";
 import {
@@ -53,65 +53,60 @@ export default function UsersPage() {
   }, [page, pageSize]);
 
   return (
-    <Card className="p-4">
-      <CardContent>
-        <h1 className="text-2xl font-bold mb-4">User Management</h1>
-        {loading ? (
-          <div className="flex justify-center py-10">
-            <Loader2 className="animate-spin w-6 h-6" />
-          </div>
-        ) : (
-          <>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="w-[100px]">ID</TableHead>
-                  <TableHead>Name</TableHead>
-                  <TableHead>Email</TableHead>
-                  <TableHead>Phone</TableHead>
-                  <TableHead>Role</TableHead>
-                  <TableHead>Last Login</TableHead>
-                  <TableHead>Is Online</TableHead>
-                  <TableHead className="text-right">Join Date</TableHead>
+    <Card className="p-6 min-h-[calc(100vh_-_65px)]">
+      <h1 className="text-2xl font-bold mb-4">User Management</h1>
+      {loading ? (
+        <div className="flex justify-center py-10">
+          <Loader2 className="animate-spin w-6 h-6" />
+        </div>
+      ) : (
+        <>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="w-[100px]">ID</TableHead>
+                <TableHead>Name</TableHead>
+                <TableHead>Email</TableHead>
+                <TableHead>Phone</TableHead>
+                <TableHead>Role</TableHead>
+                <TableHead>Last Login</TableHead>
+                <TableHead>Is Online</TableHead>
+                <TableHead className="text-right">Join Date</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {users?.map((user, index) => (
+                <TableRow key={user.id}>
+                  <TableCell className="font-medium">{index + 1}</TableCell>
+                  <TableCell>{user.name}</TableCell>
+                  <TableCell>{user.email}</TableCell>
+                  <TableCell>{user.phone || "-"}</TableCell>
+                  <TableCell>
+                    <Badge className="rounded-full" variant={"outline"}>
+                      {user.role}
+                    </Badge>
+                  </TableCell>
+                  <TableCell>
+                    {user.last_login &&
+                      format(new Date(user.last_login), "dd MMM yyyy, hh:mm a")}
+                  </TableCell>
+                  <TableCell></TableCell>
+                  <TableCell className="text-right">
+                    {format(user.created_at, "dd MMM yyyy")}
+                  </TableCell>
                 </TableRow>
-              </TableHeader>
-              <TableBody>
-                {users?.map((user, index) => (
-                  <TableRow key={user.id}>
-                    <TableCell className="font-medium">{index + 1}</TableCell>
-                    <TableCell>{user.name}</TableCell>
-                    <TableCell>{user.email}</TableCell>
-                    <TableCell>{user.phone || "-"}</TableCell>
-                    <TableCell>
-                      <Badge className="rounded-full" variant={"outline"}>
-                        {user.role}
-                      </Badge>
-                    </TableCell>
-                    <TableCell>
-                      {user.last_login &&
-                        format(
-                          new Date(user.last_login),
-                          "dd MMM yyyy, hh:mm a"
-                        )}
-                    </TableCell>
-                    <TableCell></TableCell>
-                    <TableCell className="text-right">
-                      {format(user.created_at, "dd MMM yyyy")}
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-            {/* <DataTablePagination
+              ))}
+            </TableBody>
+          </Table>
+          {/* <DataTablePagination
               page={page}
               pageSize={pageSize}
               onPageChange={setPage}
               onPageSizeChange={setPageSize}
               totalItems={100} // Replace with actual total from backend
             /> */}
-          </>
-        )}
-      </CardContent>
+        </>
+      )}
     </Card>
   );
 }

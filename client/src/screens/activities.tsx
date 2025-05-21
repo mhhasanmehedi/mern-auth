@@ -3,6 +3,7 @@ import axios from "axios";
 import useAuth from "@/hooks/useAuth";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
+import { Card } from "@/components/ui/card";
 
 type User = {
   id: number;
@@ -47,7 +48,7 @@ export default function ActivityPage() {
   if (error) return <div className="p-4 text-red-500">{error}</div>;
 
   return (
-    <div className="w-full p-6 bg-white rounded-2xl shadow-md">
+    <Card className="p-6 min-h-[calc(100vh_-_65px)]">
       <h2 className="text-2xl font-bold mb-6">Activity Log</h2>
       <div>
         {activities?.map((activity) => (
@@ -79,6 +80,6 @@ export default function ActivityPage() {
           </div>
         ))}
       </div>
-    </div>
+    </Card>
   );
 }
