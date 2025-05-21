@@ -1,4 +1,11 @@
-import { Calendar, Home, Inbox, Search, Settings, Users } from "lucide-react";
+import {
+  Home,
+  LogOut,
+  PanelsTopLeft,
+  TvMinimal,
+  User,
+  Users,
+} from "lucide-react";
 
 import {
   Sidebar,
@@ -10,14 +17,27 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { Link } from "react-router";
+import { Link, useLocation } from "react-router";
 import useAuth from "@/hooks/useAuth";
 
 // Menu items.
 
 export function AppSidebar() {
-  const { user } = useAuth();
+  const location = useLocation();
+
+  const { user, logout } = useAuth();
+
+  const handleLogout = async () => {
+    await logout();
+    navigate("/login");
+  };
+
   const items = [
+    {
+      title: "Dashboard",
+      url: "/user/dashboard",
+      icon: TvMinimal,
+    },
     ...(user?.role === "admin"
       ? [
           {
@@ -37,24 +57,14 @@ export function AppSidebar() {
         ]
       : []),
     {
-      title: "Inbox",
-      url: "#",
-      icon: Inbox,
-    },
-    {
-      title: "Calendar",
-      url: "#",
-      icon: Calendar,
-    },
-    {
-      title: "Search",
-      url: "#",
-      icon: Search,
+      title: "Profile",
+      url: "/user/profile",
+      icon: User,
     },
     {
       title: "Frontend",
       url: "/",
-      icon: Settings,
+      icon: PanelsTopLeft,
     },
   ];
 
@@ -67,7 +77,12 @@ export function AppSidebar() {
             <SidebarMenu>
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
+                  <SidebarMenuButton
+                    asChild
+                    className={`${
+                      location.pathname === item.url && "bg-accent text-white"
+                    } `}
+                  >
                     <Link to={item.url}>
                       <item.icon />
                       <span>{item.title}</span>
@@ -75,6 +90,15 @@ export function AppSidebar() {
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  onClick={handleLogout}
+                  className="bg-amber-600 text-white hover:bg-amber-500"
+                >
+                  <LogOut />
+                  <span>Logout</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>

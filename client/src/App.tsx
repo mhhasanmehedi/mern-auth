@@ -12,6 +12,7 @@ import Dashboard from "./screens/dashboard";
 import ProtectedRoute from "./components/protected-route";
 import ActivityPage from "./screens/activities";
 import UsersPage from "./screens/users";
+import ProfilePage from "./screens/profile";
 
 const App = () => {
   return (
@@ -34,6 +35,7 @@ const App = () => {
           <Route path="/user/dashboard" element={<Dashboard />} />
           <Route path="/user/activities" element={<ActivityPage />} />
           <Route path="/user/users" element={<UsersPage />} />
+          <Route path="/user/profile" element={<ProfilePage />} />
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>

@@ -10,9 +10,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
 import axios from "axios";
 import { format } from "date-fns";
+import { Badge } from "@/components/ui/badge";
 import { useOnlineUsers } from "@/hooks/use-online-users";
 
 interface User {
@@ -21,6 +21,8 @@ interface User {
   email: string;
   role: string;
   last_login?: string | null;
+  phone?: string | null;
+  address?: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -68,6 +70,7 @@ export default function UsersPage() {
                   <TableHead className="w-[100px]">ID</TableHead>
                   <TableHead>Name</TableHead>
                   <TableHead>Email</TableHead>
+                  <TableHead>Phone</TableHead>
                   <TableHead>Role</TableHead>
                   <TableHead>Last Login</TableHead>
                   <TableHead>Is Online</TableHead>
@@ -80,6 +83,7 @@ export default function UsersPage() {
                     <TableCell className="font-medium">{index + 1}</TableCell>
                     <TableCell>{user.name}</TableCell>
                     <TableCell>{user.email}</TableCell>
+                    <TableCell>{user.phone || "-"}</TableCell>
                     <TableCell>
                       <Badge className="rounded-full" variant={"outline"}>
                         {user.role}

@@ -8,6 +8,9 @@ interface User {
   name: string;
   email: string;
   role: "user" | "admin";
+  phone?: string | null;
+  address?: string | null;
+  created_at: string;
 }
 
 // auth state interface

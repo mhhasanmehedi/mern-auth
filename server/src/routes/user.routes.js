@@ -1,5 +1,5 @@
 import express from "express";
-import { allUsers } from "../controllers/user.controller.js";
+import { allUsers, updateProfile } from "../controllers/user.controller.js";
 import {
   authorizeRoles,
   isAuthenticatedUser,
@@ -8,5 +8,7 @@ import {
 const router = express.Router();
 
 router.get("/users", isAuthenticatedUser, authorizeRoles("admin"), allUsers);
+
+router.put("/me/update", isAuthenticatedUser, updateProfile);
 
 export default router;
