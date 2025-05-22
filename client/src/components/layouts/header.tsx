@@ -1,6 +1,7 @@
 import useAuth from "@/hooks/useAuth";
 import { Link, useNavigate } from "react-router";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
+import ToggleTheme from "@/components/ui/toggle-theme";
 
 const Header = () => {
   const { isAuthenticated, user, logout, loading } = useAuth();
@@ -42,6 +43,7 @@ const Header = () => {
             <Button onClick={handleLogin}>Login</Button>
           </>
         )}
+        <ToggleTheme />
       </div>
     </header>
   );
