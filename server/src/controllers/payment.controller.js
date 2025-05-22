@@ -64,21 +64,21 @@ export const paymentSuccess = async (req, res, next) => {
   console.log("Payment Success:", req.params.tranId);
   // Do api request for create order payment:true
 
-  res.redirect("http://localhost:5173/");
+  res.redirect("http://localhost:5173?status=success");
 };
 
 export const paymentFail = async (req, res, next) => {
   console.log("Payment Failed:", req.params.tranId);
   // Do api request for delete order or payment:false
-  res.redirect("http://localhost:5173/");
+  res.redirect("http://localhost:5173?status=failed");
 };
 
 export const paymentCancel = async (req, res, next) => {
   console.log("Payment Canceled:", req.params.tranId);
-  res.redirect("http://localhost:5173/");
+  res.redirect("http://localhost:5173?status=cancel");
 };
 
 export const paymentIpn = async (req, res, next) => {
   console.log("IPN Data:", req.body);
-  res.redirect("http://localhost:5173/");
+  res.redirect("http://localhost:5173?status=ipn");
 };
