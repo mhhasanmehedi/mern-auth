@@ -1,121 +1,45 @@
-import { useEffect } from "react";
-import { Link, useNavigate } from "react-router";
-import { toast } from "react-toastify";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
+import LoginForm from "@/components/auth/login-form";
+import { SunIcon as Sunburst } from "lucide-react";
 
-import useAuth from "@/hooks/useAuth";
-
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-
-// Zod schema
-const loginSchema = z.object({
-  email: z.string().email({ message: "Invalid email address" }),
-  password: z
-    .string()
-    .min(6, { message: "Password must be at least 6 characters" }),
-});
-
-type LoginFormValues = z.infer<typeof loginSchema>;
-
-export default function Login() {
-  const { login, loading, error, isAuthenticated, clearErrors } = useAuth();
-  const navigate = useNavigate();
-
-  const form = useForm<LoginFormValues>({
-    resolver: zodResolver(loginSchema),
-    defaultValues: {
-      email: "",
-      password: "",
-    },
-  });
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      navigate("/");
-    }
-
-    if (error) {
-      toast.error(error);
-      clearErrors();
-    }
-  }, [isAuthenticated, error, navigate, clearErrors]);
-
-  const onSubmit = async (values: LoginFormValues) => {
-    await login(values.email, values.password);
-  };
-
+const LoginPage = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <Card className="w-full max-w-md shadow-xl">
-        <CardContent className="p-8">
-          <h2 className="text-2xl font-bold text-center mb-6">Login</h2>
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Email</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="email"
-                        placeholder="you@example.com"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+    <div className="min-h-screen  flex items-center justify-center overflow-hidden p-4l">
+      <div className=" w-full relative max-w-5xl overflow-hidden flex flex-col md:flex-row shadow-xl">
+        <div className="w-full h-full z-2 absolute bg-linear-to-t from-transparent to-black"></div>
+        <div className="flex absolute z-2  overflow-hidden backdrop-blur-2xl ">
+          <div className="h-[40rem] z-2 w-[4rem] bg-linear-90 from-[#ffffff00] via-[#000000] via-[69%] to-[#ffffff30] opacity-30 overflow-hidden"></div>
+          <div className="h-[40rem] z-2 w-[4rem] bg-linear-90 from-[#ffffff00] via-[#000000] via-[69%] to-[#ffffff30]  opacity-30 overflow-hidden"></div>
+          <div className="h-[40rem] z-2 w-[4rem] bg-linear-90 from-[#ffffff00] via-[#000000] via-[69%] to-[#ffffff30]  opacity-30 overflow-hidden"></div>
+          <div className="h-[40rem] z-2 w-[4rem] bg-linear-90 from-[#ffffff00] via-[#000000] via-[69%] to-[#ffffff30]  opacity-30 overflow-hidden"></div>
+          <div className="h-[40rem] z-2 w-[4rem] bg-linear-90 from-[#ffffff00] via-[#000000] via-[69%] to-[#ffffff30]  opacity-30 overflow-hidden"></div>
+          <div className="h-[40rem] z-2 w-[4rem] bg-linear-90 from-[#ffffff00] via-[#000000] via-[69%] to-[#ffffff30]  opacity-30 overflow-hidden"></div>
+        </div>
+        <div className="w-[15rem] h-[15rem] bg-orange-500 absolute z-1 rounded-full bottom-0"></div>
+        <div className="w-[8rem] h-[5rem] bg-white absolute z-1 rounded-full bottom-0"></div>
+        <div className="w-[8rem] h-[5rem] bg-white absolute z-1 rounded-full bottom-0"></div>
 
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Password</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="password"
-                        placeholder="••••••••"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+        <div className="bg-black text-white p-8 md:p-12 md:w-1/2 relative rounded-bl-3xl  overflow-hidden">
+          <h1 className="text-2xl md:text-3xl font-medium leading-tight z-10 tracking-tight relative">
+            Design and dev partner for startups and founders.
+          </h1>
+        </div>
 
-              <Button type="submit" className="w-full" disabled={loading}>
-                {loading ? "Logging in..." : "Login"}
-              </Button>
-            </form>
-          </Form>
-          <p className="mt-6 text-center text-sm">
-            Don't have an account yet?{" "}
-            <Link
-              to="/register"
-              className="text-primary font-medium hover:underline cursor-pointer"
-            >
-              Sign up here
-            </Link>
-            .
-          </p>
-        </CardContent>
-      </Card>
+        <div className="p-8 md:p-12 md:w-1/2 flex flex-col bg-white dark:bg-secondary z-99 text-secondary-foreground ">
+          <div className="flex flex-col items-left mb-8">
+            <div className="text-orange-500 mb-4">
+              <Sunburst className="h-10 w-10" />
+            </div>
+            <h2 className="text-3xl font-medium mb-2 tracking-tight">Login</h2>
+            <p className="text-left opacity-80">
+              Welcome to Chatrabash — Let's get started
+            </p>
+          </div>
+
+          <LoginForm />
+        </div>
+      </div>
     </div>
   );
-}
+};
+
+export default LoginPage;
