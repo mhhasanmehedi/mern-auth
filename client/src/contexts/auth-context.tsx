@@ -96,6 +96,7 @@ interface AuthContextProps extends AuthState {
   loadUser: () => Promise<void>;
   clearErrors: () => void;
   backendUrl: string;
+  assetUrl: string;
 }
 
 // Create Context
@@ -108,6 +109,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   axios.defaults.withCredentials = true;
 
   const backendUrl = "http://localhost:5000/api";
+  const assetUrl = "http://localhost:5000/uploads";
 
   const [state, dispatch] = useReducer(authReducer, initialState);
 
@@ -190,6 +192,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         loadUser,
         clearErrors,
         backendUrl,
+        assetUrl,
       }}
     >
       {children}

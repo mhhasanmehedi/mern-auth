@@ -18,6 +18,7 @@ import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import ChangesAlertModal from "./changes-alert-modal";
 import { useState } from "react";
+import UploadImage from "./upload-image";
 
 const formSchema = z.object({
   name: z.string().min(2, "Name is required"),
@@ -32,6 +33,7 @@ export default function UpdateProfileForm({
 }) {
   const { user } = useAuth();
   const [showModal, setShowModal] = useState(false);
+  const [avatar, setAvatar] = useState("");
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -48,9 +50,16 @@ export default function UpdateProfileForm({
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      await axios.put(`${backendUrl}/me/update`, values, {
-        withCredentials: true,
-      });
+      await axios.put(
+        `${backendUrl}/me/update`,
+        {
+          ...values,
+          avatar,
+        },
+        {
+          withCredentials: true,
+        }
+      );
       toast.success("Profile updated");
     } catch (err) {
       console.error("Update failed", err);
@@ -77,6 +86,7 @@ export default function UpdateProfileForm({
   return (
     <>
       <div className="max-w-md">
+        <UploadImage avatar={avatar} setAvatar={setAvatar} />
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <FormField

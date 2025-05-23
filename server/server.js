@@ -1,14 +1,16 @@
 import express from "express";
 import helmet from "helmet";
 import dotenv from "dotenv";
+import { Server } from "socket.io";
 import cookieParser from "cookie-parser";
 import cors from "cors";
-import { Server } from "socket.io";
+import path from "path";
 
 import authRoutes from "./src/routes/authRoutes.js";
 import userRoutes from "./src/routes/user.routes.js";
 import paymentRoutes from "./src/routes/payment.routes.js";
 import activityRoute from "./src/routes/activity.route.js";
+import uploadRoute from "./src/routes/upload.route.js";
 import notificationRoute from "./src/routes/notification.route.js";
 import { errorHandler, notFound } from "./src/middleware/error.middleware.js";
 import { authenticateSocket } from "./src/middleware/auth.middleware.js";
@@ -20,6 +22,9 @@ const port = process.env.PORT || 5000;
 const app = express();
 app.use(express.json());
 app.use(helmet());
+app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
+
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(
   cors({
@@ -27,12 +32,14 @@ app.use(
     credentials: true,
   })
 );
+app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
 
 app.use("/api/auth", authRoutes);
 app.use("/api", userRoutes);
 app.use("/api/payment", paymentRoutes);
 app.use("/api/activity", activityRoute);
 app.use("/api/notifications", notificationRoute);
+app.use("/api/upload", uploadRoute);
 
 app.use(notFound);
 app.use(errorHandler);
@@ -44,7 +51,8 @@ const server = app.listen(port, () => {
 // Set up Socket.IO with the existing Express server
 export const io = new Server(server, {
   cors: {
-    origin: "*", // Allow CORS for all origins
+    origin: process.env.FRONTEND_URL,
+    credentials: true,
   },
 });
 

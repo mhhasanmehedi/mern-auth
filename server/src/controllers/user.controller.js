@@ -8,6 +8,7 @@ export const allUsers = asyncHandler(async (req, res, next) => {
       name: true,
       email: true,
       role: true,
+      avatar: true,
       last_login: true,
       created_at: true,
       updated_at: true,
@@ -28,7 +29,7 @@ export const updateProfile = asyncHandler(async (req, res, next) => {
     throw new Error("Unauthorized");
   }
 
-  const { name, phone, address } = req.body;
+  const { name, phone, address, avatar } = req.body;
 
   const user = await db.user.findUnique({
     where: { id: userId },
@@ -45,6 +46,7 @@ export const updateProfile = asyncHandler(async (req, res, next) => {
       name: name || user.name,
       phone: phone || user.phone,
       address: address || user.address,
+      avatar: avatar || user.avatar,
     },
   });
 

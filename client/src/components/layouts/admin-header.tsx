@@ -18,7 +18,7 @@ import { Link, useNavigate } from "react-router";
 export default function AdminHeader() {
   const navigate = useNavigate();
 
-  const { user, logout } = useAuth();
+  const { user, logout, assetUrl } = useAuth();
 
   const handleLogout = async () => {
     await logout();
@@ -39,7 +39,10 @@ export default function AdminHeader() {
               <Button variant="ghost" className="flex items-center gap-2">
                 <Avatar className="h-8 w-8">
                   {user?.avatar && (
-                    <AvatarImage src={user?.avatar} alt="User" />
+                    <AvatarImage
+                      src={`${assetUrl}/${user?.avatar}`}
+                      alt="User"
+                    />
                   )}
                   <AvatarFallback>{user?.name?.charAt(0)}</AvatarFallback>
                 </Avatar>

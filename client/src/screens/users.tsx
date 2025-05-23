@@ -13,6 +13,7 @@ import {
 import axios from "axios";
 import { format } from "date-fns";
 import { Badge } from "@/components/ui/badge";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 interface User {
   id: number;
@@ -20,6 +21,7 @@ interface User {
   email: string;
   role: string;
   last_login?: string | null;
+  avatar?: string | null;
   phone?: string | null;
   address?: string | null;
   created_at: string;
@@ -27,7 +29,7 @@ interface User {
 }
 
 export default function UsersPage() {
-  const { backendUrl } = useAuth();
+  const { backendUrl, assetUrl } = useAuth();
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [page, setPage] = useState<number>(1);
@@ -79,7 +81,20 @@ export default function UsersPage() {
               {users?.map((user, index) => (
                 <TableRow key={user.id}>
                   <TableCell className="font-medium">{index + 1}</TableCell>
-                  <TableCell>{user.name}</TableCell>
+                  <TableCell>
+                    <div className="flex items-center gap-2">
+                      <Avatar className="h-8 w-8">
+                        {user?.avatar && (
+                          <AvatarImage
+                            src={`${assetUrl}/${user?.avatar}`}
+                            alt="User"
+                          />
+                        )}
+                        <AvatarFallback>{user?.name?.charAt(0)}</AvatarFallback>
+                      </Avatar>
+                      {user.name}
+                    </div>
+                  </TableCell>
                   <TableCell>{user.email}</TableCell>
                   <TableCell>{user.phone || "-"}</TableCell>
                   <TableCell>
