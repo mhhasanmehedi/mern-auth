@@ -1,4 +1,3 @@
-import { Card } from "@/components/ui/card";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { SquarePen, X } from "lucide-react";
@@ -12,25 +11,32 @@ const ProfilePage = () => {
     setIsEdit((prev) => !prev);
   };
   return (
-    <Card className="p-6 min-h-[calc(100vh_-_65px)]">
+    <div className="bg-white p-6 min-h-[calc(100vh_-_65px)]">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold mb-4">
           {isEdit ? "Edit Profile" : "Profile Information"}
         </h1>
-        <Button
+
+        {isEdit ? null : (
+          <Button onClick={() => handleEditChange()}>
+            <SquarePen className="size-4" />
+            Edit
+          </Button>
+        )}
+        {/* <Button
           onClick={() => handleEditChange()}
           variant={isEdit ? "destructive" : "default"}
         >
           {isEdit ? <X className="size-4" /> : <SquarePen className="size-4" />}
           {isEdit ? "Cancel" : "Edit"}
-        </Button>
+        </Button> */}
       </div>
       {isEdit ? (
         <UpdateProfileForm handleEditChange={handleEditChange} />
       ) : (
         <ProfileInformation />
       )}
-    </Card>
+    </div>
   );
 };
 

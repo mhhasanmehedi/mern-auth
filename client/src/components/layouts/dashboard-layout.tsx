@@ -1,13 +1,14 @@
 import { Outlet } from "react-router";
 import { AppSidebar } from "./app-sidebar";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { SidebarProvider } from "@/components/ui/sidebar";
+import AdminHeader from "./admin-header";
 
 const DashboardLayout = () => {
   return (
     <SidebarProvider>
       <AppSidebar />
       <main className="w-full">
-        <SidebarTrigger />
+        <AdminHeader />
         <div className="p-4">
           <Outlet />
         </div>

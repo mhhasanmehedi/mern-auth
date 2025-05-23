@@ -9,6 +9,7 @@ interface User {
   email: string;
   role: "user" | "admin";
   phone?: string | null;
+  avatar?: string | null;
   address?: string | null;
   created_at: string;
 }

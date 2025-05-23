@@ -13,18 +13,31 @@ enum Role {
 }
 
 model User {
-  id         Int        @id @default(autoincrement())
-  email      String     @unique
+  id         Int       @id @default(autoincrement())
+  email      String    @unique
   password   String
   name       String
   phone      String?
   address    String?
   avatar     String?
-  role       Role       @default(user)
+  role       Role      @default(user)
   last_login DateTime?
-  created_at DateTime   @default(now())
-  updated_at DateTime   @updatedAt
-  activities Activity[]
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+
+  activities   Activity[]
+  Notification Notification[]
+}
+
+model Notification {
+  id         String   @id @default(uuid())
+  userId     Int
+  message    String
+  isRead     Boolean  @default(false)
+  type       String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  user       User?    @relation(fields: [userId], references: [id])
 }
 
 model Activity {

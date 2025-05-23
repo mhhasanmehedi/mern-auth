@@ -50,10 +50,11 @@ export default function UsersPage() {
     };
 
     fetchUsers();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, pageSize]);
 
   return (
-    <Card className="p-6 min-h-[calc(100vh_-_65px)]">
+    <div className="bg-white p-6 min-h-[calc(100vh_-_65px)]">
       <h1 className="text-2xl font-bold mb-4">User Management</h1>
       {loading ? (
         <div className="flex justify-center py-10">
@@ -107,6 +108,6 @@ export default function UsersPage() {
             /> */}
         </>
       )}
-    </Card>
+    </div>
   );
 }

@@ -40,7 +40,7 @@ export default function LoginForm() {
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate("/");
+      navigate("/user/dashboard");
     }
 
     if (error) {

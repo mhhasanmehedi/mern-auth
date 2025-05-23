@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 import asyncHandler from "./asyncHandler.js";
 import db from "../utils/db.js";
+import cookie from "cookie";
 
 export const isAuthenticatedUser = asyncHandler(async (req, res, next) => {
   const token = req.cookies.jwt;
@@ -33,4 +34,9 @@ export const authorizeRoles = (...roles) => {
 
     next();
   };
+};
+
+export const authenticateSocket = (socket, next) => {
+  socket.user = socket.user;
+  // next();
 };

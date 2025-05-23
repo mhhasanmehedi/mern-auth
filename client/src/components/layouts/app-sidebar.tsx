@@ -17,13 +17,14 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { Link, useLocation } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import useAuth from "@/hooks/useAuth";
 
 // Menu items.
 
 export function AppSidebar() {
   const location = useLocation();
+  const navigate = useNavigate();
 
   const { user, logout } = useAuth();
 
@@ -80,7 +81,8 @@ export function AppSidebar() {
                   <SidebarMenuButton
                     asChild
                     className={`${
-                      location.pathname === item.url && "bg-accent text-white"
+                      location.pathname === item.url &&
+                      "bg-primary hover:bg-primary hover:text-white text-white"
                     } `}
                   >
                     <Link to={item.url}>
