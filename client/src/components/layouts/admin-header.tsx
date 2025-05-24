@@ -14,6 +14,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import AdminHeaderNotification from "./admin-header-notification";
 import useAuth from "@/hooks/useAuth";
 import { Link, useNavigate } from "react-router";
+import ToggleTheme from "../ui/toggle-theme";
 
 export default function AdminHeader() {
   const navigate = useNavigate();
@@ -26,11 +27,13 @@ export default function AdminHeader() {
   };
 
   return (
-    <header className="border-b bg-white">
+    <header className="border-b bg-sidebar da">
       <div className="flex h-16 items-center px-4 md:px-6">
         <SidebarTrigger />
 
         <nav className="ml-auto flex items-center gap-4">
+          <ToggleTheme />
+
           <AdminHeaderNotification />
 
           {/* Profile Dropdown */}

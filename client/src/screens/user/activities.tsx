@@ -6,7 +6,7 @@ const ActivitiesList = lazy(
 
 export default function ActivityPage() {
   return (
-    <div className="p-6 bg-white border rounded w-full min-h-[calc(100vh_-_65px)]">
+    <div className="p-6 bg-white dark:bg-black border rounded w-full min-h-[calc(100vh_-_100px)]">
       <h2 className="text-2xl font-bold mb-6">Activity Log</h2>
       <Suspense fallback={<ActivitiesSkeleton />}>
         <ActivitiesList />

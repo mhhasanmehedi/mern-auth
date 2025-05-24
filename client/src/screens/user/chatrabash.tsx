@@ -60,7 +60,7 @@ export default function ChatrabashPage() {
   };
 
   return (
-    <div className="p-6 bg-white border rounded w-full min-h-[calc(100vh_-_65px)]">
+    <div className="p-6 bg-white dark:bg-black border rounded w-full min-h-[calc(100vh_-_100px)]">
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-xl font-bold">Chatrabash List</h1>
         <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>

@@ -11,7 +11,7 @@ const ProfilePage = () => {
     setIsEdit((prev) => !prev);
   };
   return (
-    <div className="bg-white border rounded p-6 min-h-[calc(100vh_-_65px)]">
+    <div className="bg-white dark:bg-black border rounded p-6 min-h-[calc(100vh_-_100px)]">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold mb-4">
           {isEdit ? "Edit Profile" : "Profile Information"}

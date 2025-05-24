@@ -7,7 +7,7 @@ const Dashboard = () => {
   const { user } = useAuth();
 
   return (
-    <div className="p-6 bg-white border rounded w-full min-h-[calc(100vh_-_65px)]">
+    <div className="p-6 bg-white dark:bg-black border rounded w-full min-h-[calc(100vh_-_100px)]">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl md:text-3xl font-semibold text-gray-800">

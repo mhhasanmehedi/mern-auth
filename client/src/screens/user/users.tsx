@@ -56,7 +56,7 @@ export default function UsersPage() {
   }, [page, pageSize]);
 
   return (
-    <div className="bg-white border rounded p-6 min-h-[calc(100vh_-_65px)]">
+    <div className="bg-white dark:bg-black border rounded p-6 min-h-[calc(100vh_-_100px)]">
       <h1 className="text-2xl font-bold mb-4">User Management</h1>
       {loading ? (
         <div className="flex justify-center py-10">
