@@ -13,6 +13,7 @@ import ProtectedRoute from "./components/protected-route";
 import ActivityPage from "./screens/activities";
 import UsersPage from "./screens/users";
 import ProfilePage from "./screens/profile";
+import ChatrabashPage from "./screens/user/chatrabash";
 
 const App = () => {
   return (
@@ -36,6 +37,7 @@ const App = () => {
           <Route path="/user/activities" element={<ActivityPage />} />
           <Route path="/user/users" element={<UsersPage />} />
           <Route path="/user/profile" element={<ProfilePage />} />
+          <Route path="/user/chatrabash" element={<ChatrabashPage />} />
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>

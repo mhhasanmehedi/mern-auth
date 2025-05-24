@@ -8,12 +8,13 @@ import path from "path";
 
 import authRoutes from "./src/routes/authRoutes.js";
 import userRoutes from "./src/routes/user.routes.js";
+import uploadRoute from "./src/routes/upload.route.js";
 import paymentRoutes from "./src/routes/payment.routes.js";
 import activityRoute from "./src/routes/activity.route.js";
-import uploadRoute from "./src/routes/upload.route.js";
+import chatrabashRoute from "./src/routes/chatrabash.route.js";
 import notificationRoute from "./src/routes/notification.route.js";
-import { errorHandler, notFound } from "./src/middleware/error.middleware.js";
 import { authenticateSocket } from "./src/middleware/auth.middleware.js";
+import { errorHandler, notFound } from "./src/middleware/error.middleware.js";
 
 dotenv.config();
 
@@ -40,6 +41,7 @@ app.use("/api/payment", paymentRoutes);
 app.use("/api/activity", activityRoute);
 app.use("/api/notifications", notificationRoute);
 app.use("/api/upload", uploadRoute);
+app.use("/api/chatrabash", chatrabashRoute);
 
 app.use(notFound);
 app.use(errorHandler);

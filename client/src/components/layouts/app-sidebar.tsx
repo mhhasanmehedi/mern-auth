@@ -58,6 +58,11 @@ export function AppSidebar() {
         ]
       : []),
     {
+      title: "Chatrabash",
+      url: "/user/chatrabash",
+      icon: User,
+    },
+    {
       title: "Profile",
       url: "/user/profile",
       icon: User,
