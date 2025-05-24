@@ -53,6 +53,36 @@ export const getAllChatrabash = asyncHandler(async (req, res, next) => {
   });
 });
 
+// Get single chatrabash
+export const getSingleChatrabash = asyncHandler(async (req, res, next) => {
+  const userId = req.user.id;
+  const { id } = req.params;
+
+  if (!id) {
+    return res.status(404).json({ error: "ID not found" });
+  }
+
+  const chatrabash = await db.chatrabash.findUnique({
+    where: { id: parseInt(id) },
+    include: {
+      owner: true,
+    },
+  });
+
+  if (!chatrabash) {
+    return res.status(404).json({ error: "Chatrabash not found" });
+  }
+
+  if (userId !== parseInt(chatrabash.ownerId)) {
+    return res.status(403).json({ error: "Access denied" });
+  }
+
+  res.status(200).json({
+    success: true,
+    data: chatrabash,
+  });
+});
+
 // Update chatrabash with notification
 export const updateChatrabash = asyncHandler(async (req, res, next) => {
   const userId = req.user.id;
@@ -90,7 +120,8 @@ export const updateChatrabash = asyncHandler(async (req, res, next) => {
 
   res.status(200).json({
     success: true,
-    chatrabash: updated,
+    message: "Chatrabash Updated Successfully!",
+    data: updated,
   });
 });
 
@@ -132,7 +163,7 @@ export const deleteChatrabash = asyncHandler(async (req, res, next) => {
 });
 
 export const getChatrabashByUser = asyncHandler(async (req, res, next) => {
-  const { userId } = req.params;
+  const userId = req.user.id;
 
   const chatrabashList = await db.chatrabash.findMany({
     where: { ownerId: parseInt(userId) },

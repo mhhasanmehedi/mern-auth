@@ -1,6 +1,4 @@
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   Form,
   FormField,
@@ -9,9 +7,16 @@ import {
   FormControl,
   FormMessage,
 } from "@/components/ui/form";
+import * as z from "zod";
+import axios from "axios";
+import useAuth from "@/hooks/useAuth";
+import { toast } from "react-toastify";
+import { useForm } from "react-hook-form";
+import type { Chatrabash } from "@/types";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 const formSchema = z.object({
   name: z.string().min(1),
@@ -19,34 +24,48 @@ const formSchema = z.object({
   description: z.string().optional(),
 });
 
+type ChatrabashFormValues = z.infer<typeof formSchema>;
+
 export default function ChatrabashForm({
-  onSubmit,
-  initialData,
+  isEdit,
+  editData,
   closeSheet,
 }: {
-  onSubmit: (data: any) => void;
-  initialData?: any;
-  closeSheet: () => void;
+  isEdit?: boolean;
+  editData?: Chatrabash;
+  closeSheet?: () => void;
 }) {
-  const form = useForm<z.infer<typeof formSchema>>({
+  const { backendUrl } = useAuth();
+  const form = useForm<ChatrabashFormValues>({
     resolver: zodResolver(formSchema),
-    defaultValues: initialData || {
-      name: "",
-      location: "",
-      description: "",
+    defaultValues: {
+      name: (isEdit && editData?.name) || "",
+      location: (isEdit && editData?.location) || "",
+      description: (isEdit && editData?.description) || "",
     },
   });
 
+  const onSubmit = async (values: ChatrabashFormValues) => {
+    try {
+      if (editData) {
+        const res = await axios.put(
+          `${backendUrl}/chatrabash/${editData.id}`,
+          values
+        );
+        toast.success(res.data.message);
+      } else {
+        await axios.post(`${backendUrl}/chatrabash`, values);
+        closeSheet?.();
+        form.reset();
+      }
+    } catch (error: any) {
+      toast.error(error?.response?.data?.error);
+    }
+  };
+
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit((data) => {
-          onSubmit(data);
-          closeSheet();
-          form.reset();
-        })}
-        className="space-y-4 mt-4"
-      >
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         <FormField
           control={form.control}
           name="name"
@@ -86,7 +105,15 @@ export default function ChatrabashForm({
             </FormItem>
           )}
         />
-        <Button type="submit">{initialData ? "Update" : "Create"}</Button>
+        <Button type="submit" disabled={form.formState.isSubmitting}>
+          {form.formState.isSubmitting
+            ? isEdit
+              ? "Updating..."
+              : "Creating..."
+            : isEdit
+            ? "Update"
+            : "Create"}
+        </Button>
       </form>
     </Form>
   );

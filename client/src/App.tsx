@@ -14,6 +14,8 @@ import ActivityPage from "./screens/user/activities";
 import UsersPage from "./screens/user/users";
 import ProfilePage from "./screens/user/profile";
 import ChatrabashPage from "./screens/user/chatrabash";
+import ChatrabashOverviewPage from "./screens/user/chatrabash/overview";
+import ChatrabashSettingPage from "./screens/user/chatrabash/settings";
 
 const App = () => {
   return (
@@ -38,6 +40,14 @@ const App = () => {
           <Route path="/user/users" element={<UsersPage />} />
           <Route path="/user/profile" element={<ProfilePage />} />
           <Route path="/user/chatrabash" element={<ChatrabashPage />} />
+          <Route
+            path="/user/chatrabash/:id"
+            element={<ChatrabashOverviewPage />}
+          />
+          <Route
+            path="/user/chatrabash/:id/settings"
+            element={<ChatrabashSettingPage />}
+          />
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>
