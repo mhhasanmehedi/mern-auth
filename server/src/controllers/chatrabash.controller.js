@@ -59,10 +59,6 @@ export const updateChatrabash = asyncHandler(async (req, res, next) => {
 
   const { id } = req.params;
 
-  if (userId !== parseInt(id)) {
-    return res.status(404).json({ error: "You can't update this chatrabash" });
-  }
-
   const { name, location, description } = req.body;
 
   const existing = await db.chatrabash.findUnique({
@@ -71,6 +67,10 @@ export const updateChatrabash = asyncHandler(async (req, res, next) => {
 
   if (!existing) {
     return res.status(404).json({ error: "Chatrabash not found" });
+  }
+
+  if (userId !== parseInt(existing.ownerId)) {
+    return res.status(404).json({ error: "You can't delete this chatrabash" });
   }
 
   const updated = await db.chatrabash.update({
@@ -95,6 +95,8 @@ export const updateChatrabash = asyncHandler(async (req, res, next) => {
 });
 
 export const deleteChatrabash = asyncHandler(async (req, res, next) => {
+  const userId = req.user.id;
+
   const { id } = req.params;
 
   const existing = await db.chatrabash.findUnique({
@@ -103,6 +105,10 @@ export const deleteChatrabash = asyncHandler(async (req, res, next) => {
 
   if (!existing) {
     return res.status(404).json({ error: "Chatrabash not found" });
+  }
+
+  if (userId !== parseInt(existing.ownerId)) {
+    return res.status(404).json({ error: "You can't delete this chatrabash" });
   }
 
   await db.chatrabash.delete({

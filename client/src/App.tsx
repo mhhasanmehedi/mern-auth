@@ -8,11 +8,11 @@ import "react-toastify/dist/ReactToastify.css";
 import RegisterPage from "./screens/register";
 import GuestLayout from "./components/layouts/guest-layout";
 import DashboardLayout from "./components/layouts/dashboard-layout";
-import Dashboard from "./screens/dashboard";
+import Dashboard from "./screens/user/dashboard";
 import ProtectedRoute from "./components/protected-route";
-import ActivityPage from "./screens/activities";
-import UsersPage from "./screens/users";
-import ProfilePage from "./screens/profile";
+import ActivityPage from "./screens/user/activities";
+import UsersPage from "./screens/user/users";
+import ProfilePage from "./screens/user/profile";
 import ChatrabashPage from "./screens/user/chatrabash";
 
 const App = () => {

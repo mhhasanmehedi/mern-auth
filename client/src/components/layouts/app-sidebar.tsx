@@ -1,9 +1,12 @@
 import {
+  Activity,
+  Building2,
   Home,
   LogOut,
   PanelsTopLeft,
   TvMinimal,
   User,
+  UserPen,
   Users,
 } from "lucide-react";
 
@@ -44,7 +47,7 @@ export function AppSidebar() {
           {
             title: "Activities",
             url: "/user/activities",
-            icon: Home,
+            icon: Activity,
           },
         ]
       : []),
@@ -60,12 +63,12 @@ export function AppSidebar() {
     {
       title: "Chatrabash",
       url: "/user/chatrabash",
-      icon: User,
+      icon: Building2,
     },
     {
       title: "Profile",
       url: "/user/profile",
-      icon: User,
+      icon: UserPen,
     },
     {
       title: "Frontend",

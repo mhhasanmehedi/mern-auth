@@ -54,20 +54,20 @@ export default function ChatrabashTable({
                 <TableCell>{item.location}</TableCell>
                 <TableCell>{item.description || "-"}</TableCell>
                 <TableCell>
-                  {/* {user?.role === "admin" && user?.id === item.ownerId && ( */}
-                  <div className="flex items-center justify-end gap-2">
-                    <Button size="sm" onClick={() => onEdit(item)}>
-                      <PenSquare className="size-[14px]" />
-                      Edit
-                    </Button>
-                    <ChatrabashDeleteAlert
-                      isOpen={dialogOpen && deleteId === item.id}
-                      onOpenChange={setDialogOpen}
-                      onDelete={() => confirmDelete(item.id)}
-                      trigger={() => onDeleteTrigger(item.id)}
-                    />
-                  </div>
-                  {/* )} */}
+                  {user?.role === "admin" && user?.id === item.ownerId && (
+                    <div className="flex items-center justify-end gap-2">
+                      <Button size="sm" onClick={() => onEdit(item)}>
+                        <PenSquare className="size-[14px]" />
+                        Edit
+                      </Button>
+                      <ChatrabashDeleteAlert
+                        isOpen={dialogOpen && deleteId === item.id}
+                        onOpenChange={setDialogOpen}
+                        onDelete={() => confirmDelete(item.id)}
+                        trigger={() => onDeleteTrigger(item.id)}
+                      />
+                    </div>
+                  )}
                 </TableCell>
               </TableRow>
             ))}

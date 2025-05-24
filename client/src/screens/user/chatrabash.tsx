@@ -7,6 +7,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import ChatrabashForm from "@/components/users/chatrabash/chatrabash-form";
 import ChatrabashTable from "@/components/users/chatrabash/chatrabash-table";
 import type { Chatrabash } from "@/types";
+import { toast } from "react-toastify";
 
 export default function ChatrabashPage() {
   const { backendUrl } = useAuth();
@@ -28,13 +29,17 @@ export default function ChatrabashPage() {
   }, []);
 
   const handleSubmit = async (data: any) => {
-    if (editData) {
-      await axios.put(`${backendUrl}/chatrabash/${editData.id}`, data);
-    } else {
-      await axios.post(`${backendUrl}/chatrabash`, data);
+    try {
+      if (editData) {
+        await axios.put(`${backendUrl}/chatrabash/${editData.id}`, data);
+      } else {
+        await axios.post(`${backendUrl}/chatrabash`, data);
+      }
+      setEditData(null);
+      fetchData();
+    } catch (error) {
+      toast.error(error?.response?.data?.error);
     }
-    setEditData(null);
-    fetchData();
   };
 
   const handleEdit = (item: any) => {
@@ -43,14 +48,19 @@ export default function ChatrabashPage() {
   };
 
   const handleDelete = async (id: number) => {
-    await axios.delete(`${backendUrl}/chatrabash/${id}`);
-    setDeleteId(null);
-    setDialogOpen(false);
-    fetchData();
+    try {
+      await axios.delete(`${backendUrl}/chatrabash/${id}`);
+      setDeleteId(null);
+      setDialogOpen(false);
+      fetchData();
+    } catch (error) {
+      console.log(error);
+      toast.error(error?.response?.data?.error);
+    }
   };
 
   return (
-    <div className="p-6">
+    <div className="p-6 bg-white border rounded w-full min-h-[calc(100vh_-_65px)]">
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-xl font-bold">Chatrabash List</h1>
         <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
